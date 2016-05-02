@@ -8,7 +8,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\ClientNotExistingException;
+use App\Http\Controllers\Controller;
+use App\Http\Models\ClientModelSql;
 use Closure;
+use Illuminate\Http\Response;
 
 class FaceApiClientAccessMiddleware
 {
@@ -21,6 +25,22 @@ class FaceApiClientAccessMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $appKey = $request->input('app_key');
+        $appSecret = $request->input('app_secret');
+
+        try{
+            $clientId = ClientModelSql::getInstance()->getClientId($appKey, $appSecret);
+            Controller::setClientId($clientId);
+        } catch (ClientNotExistingException $e) {
+            return new Response(
+                [
+                    'status' => 'Unauthorized',
+                    'message' => 'Invalid app_key OR app_secret'
+                ],
+                401
+            );
+        }
+        
         return $next($request);
     }
 }

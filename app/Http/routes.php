@@ -18,6 +18,22 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 'middleware' => 'apiClient'],
     function () use ($app) {
-        $app->get('groups', 'GroupController@index');
 
-});
+        $app->post('groups', 'GroupController@store');
+        $app->get('groups', 'GroupController@index');
+        $app->get('groups/{id}', 'GroupController@get');
+        $app->delete('groups/{id}', 'GroupController@destroy');
+
+        $app->post('persons', 'PersonController@store');
+        $app->get('persons/{id}', 'PersonController@get');
+        $app->delete('persons/{id}', 'PersonController@destroy');
+
+        $app->post('persons/faces', 'FaceController@store');
+        $app->delete('persons/faces/{id}', 'FaceController@destroy');
+        
+        $app->post('detect', 'Recognition@detect');
+        $app->post('verify/{personId}', 'Recognition@verify');
+        $app->post('recognize', 'Recognition@recognize');
+        $app->post('compare', 'Recognition@compare');
+    }
+);
