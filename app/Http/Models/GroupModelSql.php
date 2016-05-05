@@ -25,5 +25,5 @@ class GroupModelSql extends BaseModelSql
         }
         return self::$groupSqlSingleton;
     }
-
+    
 }
