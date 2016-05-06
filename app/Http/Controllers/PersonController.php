@@ -33,8 +33,8 @@ class PersonController extends Controller
 
     public function destroy($id) {
         try{
-            $result = PersonModelSql::getInstance()->deletePerson($id, self::$clientId);
-            return self::buildResponse(['person' => $result], self::SUCCESS_CODE);
+            PersonModelSql::getInstance()->deletePerson($id, self::$clientId);
+            return self::buildSuccessResponse();
 
         }catch (\Exception $e) {
             $content = array(

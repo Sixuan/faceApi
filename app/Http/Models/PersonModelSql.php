@@ -10,6 +10,7 @@ namespace App\Http\Models;
 
 
 use App\Exceptions\BadRequestException;
+use App\Exceptions\NonExistingException;
 
 class PersonModelSql extends BaseModelSql
 {
@@ -26,6 +27,34 @@ class PersonModelSql extends BaseModelSql
             self::$personSqlSingleton = new PersonModelSql();
         }
         return self::$personSqlSingleton;
+    }
+
+    public function personsExistForClient($personId, $clientId) {
+        return $this->getConn()->table('persons as p')
+            ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
+            ->join('groups as g', 'g.group_id', '=', 'pg.group_id')
+            ->where('p.person_id', '=', $personId)
+            ->where('g.clients_id', '=', $clientId)
+            ->exists();
+    }
+
+    public function groupExistForClient($groupId, $clientId) {
+        return $this->getConn()->table('groups')
+            ->where('group_id', '=', $groupId)
+            ->where('clients_id', '=', $clientId)
+            ->exists();
+    }
+
+    public function deletePerson($personId, $clientId) {
+
+        if($this->personsExistForClient($personId, $clientId)) {
+            $this->getConn()->table('persons')
+                ->where('person_id', '=', $personId)
+                ->delete();
+
+        } else {
+            throw new NonExistingException('person not exiting for client', 'person_not_exist');
+        }
     }
 
     public function getPerson($personId, $clientId) {
@@ -68,12 +97,7 @@ class PersonModelSql extends BaseModelSql
         $insertPersonGroupArray = [];
         
         foreach ($group_ids as $group_id) {
-            $exist = $this->getConn()->table('groups')
-                ->where('group_id', '=', $group_id)
-                ->where('clients_id', '=', $clientId)
-                ->exists();
-
-            if($exist) {
+            if($this->groupExistForClient($group_id, $clientId)) {
                 $insertArray = array(
                     'group_id' => $group_id,
                     'person_id' => $personId
