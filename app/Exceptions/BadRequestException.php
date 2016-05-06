@@ -11,6 +11,8 @@ namespace App\Exceptions;
 
 class BadRequestException extends \Exception
 {
+    const MISSING_CLIENT_ID = 'missing_client_id';
+    
     /**
      * @var array
      */
