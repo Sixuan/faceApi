@@ -40,7 +40,6 @@ class ClientModelSql extends BaseModelSql
             ->where('api_key', '=', $appKey)
             ->where('api_secret', '=', $appSecret)
             ->pluck('clients_id');
-        
         if(sizeof($id) > 0){
             return $id[0];
         }else{

@@ -33,9 +33,21 @@ class GroupController extends Controller
     public function destroy(Request $request) {
         
     }
-    
+
+
     public function get($id) {
-        
+        try{
+            $group = GroupModelSql::getInstance()->getGroupAndPersonsById(self::$clientId, $id);
+            return self::buildResponse(['group' => $group], self::SUCCESS_CODE);
+
+        }catch (\Exception $e) {
+            $content = array(
+                'status' => self::GENERAL_BAD_RESPONSE_MESSAGE,
+                'message' => $e->getMessage(),
+                'error' => (string)$e
+            );
+            return self::buildResponse($content, self::BAD_REQUEST);
+        }
     }
 
     public function index(Request $request) {

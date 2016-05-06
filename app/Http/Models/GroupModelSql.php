@@ -26,4 +26,34 @@ class GroupModelSql extends BaseModelSql
         return self::$groupSqlSingleton;
     }
     
+
+    public function getGroupAndPersonsById($clientId, $groupId) {
+        if(empty($clientId)) {
+            throw new BadRequestException("Client id is missing from the request", BadRequestException::MISSING_CLIENT_ID);
+        }
+
+        $group = (array)$this->getConn()->table('groups')
+            ->where('clients_id', '=', $clientId)
+            ->where('group_id', '=', $groupId)
+            ->first();
+
+        if(empty($group)) {
+            throw new NonExistingException("Group non-exiting for this client.", NonExistingException::GROUP_NOT_EXIST);
+        }
+
+        $group_id = $group['group_id'];
+        $persons = $this->getPersonsByGroupId($group_id);
+        $group['persons'] = $persons;
+        return $group;
+    }
+
+    public function getPersonsByGroupId($groupId) {
+        $persons = (array)$this->getConn()->table('persons as p')
+            ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
+            ->join('groups as g', 'pg.group_id', '=', 'g.group_id')
+            ->where('g.group_id', '=', $groupId)
+            ->get(['p.person_id', 'p.name']);
+
+        return $persons;
+    }
 }
