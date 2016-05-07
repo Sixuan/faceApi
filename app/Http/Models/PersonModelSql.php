@@ -38,13 +38,6 @@ class PersonModelSql extends BaseModelSql
             ->exists();
     }
 
-    public function groupExistForClient($groupId, $clientId) {
-        return $this->getConn()->table('groups')
-            ->where('group_id', '=', $groupId)
-            ->where('clients_id', '=', $clientId)
-            ->exists();
-    }
-
     public function deletePerson($personId, $clientId) {
 
         if($this->personsExistForClient($personId, $clientId)) {
@@ -64,6 +57,10 @@ class PersonModelSql extends BaseModelSql
             ->where('p.person_id', '=', $personId)
             ->where('g.clients_id', '=', $clientId)
             ->get(['p.person_id', 'p.name', 'g.group_id']);
+
+        if(empty($res)) {
+            throw new NonExistingException("person not existing for client", 'person_not_exist');
+        }
 
         $groups = [];
         foreach ($res as $r) {
@@ -97,7 +94,7 @@ class PersonModelSql extends BaseModelSql
         $insertPersonGroupArray = [];
         
         foreach ($group_ids as $group_id) {
-            if($this->groupExistForClient($group_id, $clientId)) {
+            if(GroupModelSql::getInstance()->groupExistForClient($group_id, $clientId)) {
                 $insertArray = array(
                     'group_id' => $group_id,
                     'person_id' => $personId

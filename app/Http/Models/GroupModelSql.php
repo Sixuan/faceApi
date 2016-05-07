@@ -29,6 +29,13 @@ class GroupModelSql extends BaseModelSql
         return self::$groupSqlSingleton;
     }
 
+    public function groupExistForClient($groupId, $clientId) {
+        return $this->getConn()->table('groups')
+            ->where('group_id', '=', $groupId)
+            ->where('clients_id', '=', $clientId)
+            ->exists();
+    }
+
     public function createGroup(array $input, $clientId) {
 
         if(empty($clientId)) {
