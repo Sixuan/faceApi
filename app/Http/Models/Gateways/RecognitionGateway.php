@@ -130,7 +130,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
     
     public function test() {
         $payload = [
-            'method' => 'verify',
+            'method' => 'test',
             'payload' => [
                 'img_path' => 'blah',
                 'person_id' => 2

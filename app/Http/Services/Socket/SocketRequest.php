@@ -79,5 +79,14 @@ class SocketRequest implements SocketRequestInterface
     {
         return $this->port;
     }
+    
+    public function toArray()
+    {
+        return array(
+            'host' => $this->host,
+            'port' => $this->port,
+            'payload' => $this->payload
+        );
+    }
 
 }

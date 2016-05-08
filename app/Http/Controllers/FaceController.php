@@ -24,7 +24,6 @@ class FaceController extends Controller
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->test();
             $content = $response->getContent();
-
             return self::buildResponse($content, self::SUCCESS_CODE);
 
         }catch (SocketException $e) {

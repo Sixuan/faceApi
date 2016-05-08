@@ -19,4 +19,6 @@ interface SocketRequestInterface
     
     public function getPayload();
     
+    public function toArray();
+    
 }
