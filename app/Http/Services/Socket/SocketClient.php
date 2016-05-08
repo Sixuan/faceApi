@@ -86,9 +86,9 @@ class SocketClient implements SocketClientInterface
         }
 
         //$formattedData = stripslashes(preg_replace('/\s+/', ' ', trim($data)));
-        \Log::info("Received socket response.", array('data' => $data));
+        \Log::info("Received socket response.", array('data' => stripslashes($data)));
 
-        $content = is_array(json_decode($data)) ? json_decode($data) : [];
+        $content = is_array(json_decode(stripslashes($data))) ? json_decode(stripslashes($data)) : [];
         socket_close($sock);
         return new SocketResponse($content);
     }
