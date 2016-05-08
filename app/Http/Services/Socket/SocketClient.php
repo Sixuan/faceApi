@@ -85,7 +85,7 @@ class SocketClient implements SocketClientInterface
             throw new SocketException("Couldn't read socket response: [$errorcode] $errormsg");
         }
 
-        $formattedData = preg_replace('/\s+/', ' ', trim($data));
+        $formattedData = stripslashes(preg_replace('/\s+/', ' ', trim($data)));
         \Log::info("Received socket response.", array('data' => $data, 'formatted_data' => $formattedData));
 
         $content = is_array(json_decode($formattedData)) ? json_decode($formattedData) : [];
