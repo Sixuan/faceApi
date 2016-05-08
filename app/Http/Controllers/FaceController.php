@@ -20,9 +20,6 @@ class FaceController extends Controller
 {
 
     public function socket() {
-        $strint = '{\"person_id\": \"2\", \"face_id\": 3}';
-        print stripslashes($strint);
-        die();
         try{
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->test();
@@ -65,9 +62,9 @@ class FaceController extends Controller
             $content = $response->getContent();
             $return = array(
                 'face_id' => $content['face_id'],
-                'image_id' => $content['image_id'],
+                //'image_id' => $content['image_id'],
                 'person_id' => $person_id,
-                'face_img_path' => $content['face_img_path']
+                //'face_img_path' => $content['face_img_path']
             );
             return self::buildResponse($return, self::SUCCESS_CODE);
 
