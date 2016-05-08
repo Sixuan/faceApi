@@ -28,6 +28,7 @@ $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 'midd
         $app->get('persons/{id}', 'PersonController@get');
         $app->delete('persons/{id}', 'PersonController@destroy');
 
+        $app->post('test', 'FaceController@socket');
         $app->post('persons/faces', 'FaceController@store');
         $app->delete('persons/faces/{id}', 'FaceController@destroy');
         

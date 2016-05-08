@@ -51,4 +51,9 @@ interface RecognitionGatewayInterface
      */
     public function verify($photoPath, $personId);
 
+    /**
+     * @return SocketResponseInterface
+     */
+    public function test();
+
 }

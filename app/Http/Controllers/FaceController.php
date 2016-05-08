@@ -19,6 +19,23 @@ use Illuminate\Http\Response;
 class FaceController extends Controller
 {
 
+    public function socket() {
+        try{
+            $recognitionGateway = RecognitionGateway::getInstance();
+            $response = $recognitionGateway->test();
+            $content = $response->getContent();
+
+            return self::buildResponse($content, self::SUCCESS_CODE);
+
+        }catch (SocketException $e) {
+            $content = array(
+                'status' => self::SOCKET_BAD_RESPONSE_MESSAGE,
+                'message' => $e->getMessage(),
+                'error' => (string)$e
+            );
+            return self::buildResponse($content, self::BAD_REQUEST);
+        }
+    }
     /**
      * Given new photo, add to existing person
      * @param Request $request

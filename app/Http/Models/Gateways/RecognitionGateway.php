@@ -97,8 +97,44 @@ class RecognitionGateway implements RecognitionGatewayInterface
         }
         }
          */
-    }
+        $payload = [
+            'method' => 'detection',
+            'payload' => [
+                'img_path' => $photoPath,
+            ]
+        ];
 
+        $request = new SocketRequest(
+            $payload,
+            self::RECOGNITION_GATEWAY_HOST,
+            self::RECOGNITION_PORT,
+            self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
+        );
+
+        $response = $this->socketClient->send($request);
+        return $response;
+
+    }
+    
+    public function test() {
+        $payload = [
+            'method' => 'verify',
+            'payload' => [
+                'img_path' => 'blah',
+                'person_id' => 2
+            ]
+        ];
+
+        $request = new SocketRequest(
+            $payload,
+            self::RECOGNITION_GATEWAY_HOST,
+            self::RECOGNITION_PORT,
+            self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
+        );
+
+        $response = $this->socketClient->send($request);
+        return $response;
+    }
 
     public function verify($photoPath, $personId)
     {
@@ -111,6 +147,25 @@ class RecognitionGateway implements RecognitionGatewayInterface
         }
         }
          */
+
+        $payload = [
+            'method' => 'verify',
+            'payload' => [
+                'img_path' => $photoPath,
+                'person_id' => $personId
+            ]
+        ];
+
+        $request = new SocketRequest(
+            $payload,
+            self::RECOGNITION_GATEWAY_HOST,
+            self::RECOGNITION_PORT,
+            self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
+        );
+
+        $response = $this->socketClient->send($request);
+        return $response;
+
     }
 
     public function recognize($photoPath, $groupId)
@@ -124,6 +179,24 @@ class RecognitionGateway implements RecognitionGatewayInterface
         }
         }
          */
+
+        $payload = [
+            'method' => 'recognize',
+            'payload' => [
+                'img_path' => $photoPath,
+                'group_id' => $groupId
+            ]
+        ];
+
+        $request = new SocketRequest(
+            $payload,
+            self::RECOGNITION_GATEWAY_HOST,
+            self::RECOGNITION_PORT,
+            self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
+        );
+
+        $response = $this->socketClient->send($request);
+        return $response;
     }
 
     public function compare($faceId1, $faceId2)
@@ -137,7 +210,23 @@ class RecognitionGateway implements RecognitionGatewayInterface
         }
         }
          */
+
+        $payload = [
+            'method' => 'compare',
+            'payload' => [
+                'face_id1' => $faceId1,
+                'face_id2' => $faceId2
+            ]
+        ];
+
+        $request = new SocketRequest(
+            $payload,
+            self::RECOGNITION_GATEWAY_HOST,
+            self::RECOGNITION_PORT,
+            self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
+        );
+
+        $response = $this->socketClient->send($request);
+        return $response;
     }
-
-
 }
