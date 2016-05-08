@@ -66,6 +66,6 @@ class SocketClient implements SocketClientInterface
             die("Could not send data: [$errorcode] $errormsg \n");
         }
 
-        return new SocketResponse();
+        return new SocketResponse(['yo' => 'test', 'message' => $message]);
     }
 }

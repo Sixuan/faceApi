@@ -20,6 +20,16 @@ class SocketResponse implements SocketResponseInterface
     private $content;
 
     /**
+     * SocketResponse constructor.
+     * @param array $content
+     */
+    public function __construct(array $content)
+    {
+        $this->content = $content;
+    }
+
+
+    /**
      * @return array
      */
     public function getContent()
