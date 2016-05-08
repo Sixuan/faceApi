@@ -27,14 +27,14 @@ $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 'midd
         $app->post('persons', 'PersonController@store');
         $app->get('persons/{id}', 'PersonController@get');
         $app->delete('persons/{id}', 'PersonController@destroy');
-
+            
         $app->post('test', 'FaceController@socket');
         $app->post('persons/faces', 'FaceController@store');
         $app->delete('persons/faces/{id}', 'FaceController@destroy');
         
-        $app->post('detect', 'Recognition@detect');
-        $app->post('verify/{personId}', 'Recognition@verify');
-        $app->post('recognize', 'Recognition@recognize');
-        $app->post('compare', 'Recognition@compare');
+        $app->post('detect', 'RecognitionController@detect');
+        $app->post('verify/{personId}', 'RecognitionController@verify');
+        $app->post('recognize', 'RecognitionController@recognize');
+        $app->post('compare', 'RecognitionController@compare');
     }
 );
