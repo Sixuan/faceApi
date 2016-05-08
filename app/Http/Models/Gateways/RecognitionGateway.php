@@ -16,11 +16,21 @@ use App\Http\Services\Socket\SocketRequest;
 class RecognitionGateway implements RecognitionGatewayInterface
 {
     
-    const RECOGNITION_GATEWAY_HOST = 'localhost';
+    const RECOGNITION_GATEWAY_HOST_DEFAULT = 'localhost';
     
-    const RECOGNITION_PORT = 12345;
+    const RECOGNITION_PORT_DEFAULT = 12345;
     
     const RECOGNITION_GATEWAY_CONNECTION_TIMEOUT = 10;
+
+    /**
+     * @var string
+     */
+    private $host;
+
+    /**
+     * @var int
+     */
+    private $port;
     
     /**
      * @var SocketClientInterface
@@ -49,6 +59,8 @@ class RecognitionGateway implements RecognitionGatewayInterface
     public function __construct(SocketClientInterface $socketClient)
     {
         $this->socketClient = $socketClient;
+        $this->host = env('SOCKET_HOST', self::RECOGNITION_GATEWAY_HOST_DEFAULT);
+        $this->port = env('SOCKET_PORT', self::RECOGNITION_PORT_DEFAULT);
     }
 
 
@@ -78,8 +90,8 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $request = new SocketRequest(
             $payload,
-            self::RECOGNITION_GATEWAY_HOST,
-            self::RECOGNITION_PORT,
+            $this->host,
+            $this->port,
             self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
         );
         
@@ -106,8 +118,8 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $request = new SocketRequest(
             $payload,
-            self::RECOGNITION_GATEWAY_HOST,
-            self::RECOGNITION_PORT,
+            $this->host,
+            $this->port,
             self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
         );
 
@@ -127,11 +139,11 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $request = new SocketRequest(
             $payload,
-            self::RECOGNITION_GATEWAY_HOST,
-            self::RECOGNITION_PORT,
+            $this->host,
+            $this->port,
             self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
         );
-
+        
         $response = $this->socketClient->send($request);
         return $response;
     }
@@ -158,8 +170,8 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $request = new SocketRequest(
             $payload,
-            self::RECOGNITION_GATEWAY_HOST,
-            self::RECOGNITION_PORT,
+            $this->host,
+            $this->port,
             self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
         );
 
@@ -190,8 +202,8 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $request = new SocketRequest(
             $payload,
-            self::RECOGNITION_GATEWAY_HOST,
-            self::RECOGNITION_PORT,
+            $this->host,
+            $this->port,
             self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
         );
 
@@ -221,8 +233,8 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $request = new SocketRequest(
             $payload,
-            self::RECOGNITION_GATEWAY_HOST,
-            self::RECOGNITION_PORT,
+            $this->host,
+            $this->port,
             self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
         );
 
