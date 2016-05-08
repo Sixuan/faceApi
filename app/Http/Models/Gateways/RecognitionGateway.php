@@ -81,7 +81,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
         }
          */
         $payload = [
-            'method' => 'add_face',
+            'method' => 'addFace',
             'payload' => [
                 'img_path' => $photoPath,
                 'person_id' => $personId,
