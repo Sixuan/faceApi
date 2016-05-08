@@ -20,6 +20,9 @@ class FaceController extends Controller
 {
 
     public function socket() {
+        $strint = '{\"person_id\": \"2\", \"face_id\": 3}';
+        print stripslashes($strint);
+        die();
         try{
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->test();

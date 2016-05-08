@@ -86,10 +86,14 @@ class SocketClient implements SocketClientInterface
         }
 
         //$formattedData = stripslashes(preg_replace('/\s+/', ' ', trim($data)));
-        \Log::info("Received socket response.", array('data' => stripslashes($data)));
-
-        $content = is_array(json_decode(stripslashes($data))) ? json_decode(stripslashes($data)) : [];
+        $dataArray = json_decode($data, true);
+        \Log::info("Received socket response.", array('data_string' => $data, 'data_array' => $dataArray));
+        $content = is_array($dataArray) ? $dataArray : [];
         socket_close($sock);
+
+        if(empty($content)) {
+            throw new SocketException("Fail to parse socket response");
+        }
         return new SocketResponse($content);
     }
 }
