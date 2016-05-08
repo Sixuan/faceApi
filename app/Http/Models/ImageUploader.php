@@ -9,6 +9,7 @@
 namespace App\Http\Models;
 
 
+use App\Exceptions\BadRequestException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageUploader
@@ -16,10 +17,15 @@ class ImageUploader
     /**
      * @param UploadedFile $file
      * @return string
+     * @throws BadRequestException
      */
     public static function uploadAndGetPath(UploadedFile $file){
         $mimeType = $file->getMimeType();
-        $extension = substr($mimeType, -3);
+//        print $mimeType;
+        if (strpos($mimeType, 'image') === false) {
+            throw new BadRequestException("invalid image format");
+        }
+        $extension = substr($mimeType, 6);
         $name = time().'.'.$extension;
         $path = "/tmp/tmpImages/";
         $file->move($path, $name);
