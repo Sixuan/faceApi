@@ -78,7 +78,7 @@ class SocketClient implements SocketClientInterface
             throw new SocketException("Couldn't send socket request: [$errorcode] $errormsg");
         }
 
-        if(!($data = socket_read($sock, 2048))) {
+        if(!($data = socket_read($sock, 20480))) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 
