@@ -68,11 +68,13 @@ $app->singleton(
 // ]);
 
  $app->middleware([
-    App\Http\Middleware\FaceApiClientAccessMiddleware::class
+     App\Http\Middleware\FaceApiClientAccessMiddleware::class,
+     App\Http\Middleware\LogRequestMiddleware::class
  ]);
 
  $app->routeMiddleware([
-     'apiClient' => App\Http\Middleware\FaceApiClientAccessMiddleware::class
+     'apiClient' => App\Http\Middleware\FaceApiClientAccessMiddleware::class,
+     'logRequest' => App\Http\Middleware\LogRequestMiddleware::class
  ]);
 
 /*
@@ -114,7 +116,5 @@ $app->configureMonologUsing(function (\Monolog\Logger $monolog) {
 
     return $monolog;
 });
-
-
 
 return $app;

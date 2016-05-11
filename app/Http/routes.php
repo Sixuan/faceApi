@@ -14,9 +14,10 @@
 $app->get('/', function () use ($app) {
     return $app->version();
 });
-//$app->get('groups', 'GroupController@index');
+//$app->get('groups', 'GroupController@index');'middleware' => 'logRequest'
 
-$app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 'middleware' => 'apiClient'],
+$app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 
+    'middleware' => ['apiClient', 'logRequest']],
     function () use ($app) {
 
         $app->post('groups', 'GroupController@store');
