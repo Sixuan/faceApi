@@ -34,7 +34,7 @@ $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 'midd
         
         $app->post('detect', 'RecognitionController@detect');
         $app->post('verify/{personId}', 'RecognitionController@verify'); //working
-        $app->post('recognize/{groupId}', 'RecognitionController@recognize');
-        $app->post('compare', 'RecognitionController@compare');
+        $app->post('recognize/{groupId}', 'RecognitionController@recognize'); //working
+        $app->post('compare', 'RecognitionController@compare'); //working
     }
 );

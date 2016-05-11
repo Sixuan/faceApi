@@ -8,6 +8,7 @@
 
 namespace App\Http\Models\Gateways;
 
+use App\Http\Controllers\Controller;
 use App\Http\Services\Socket\Contracts\SocketClientInterface;
 use App\Http\Services\Socket\Contracts\SocketResponseInterface;
 use App\Http\Services\Socket\SocketClient;
@@ -82,6 +83,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
          */
         $payload = [
             'method' => 'addFace',
+            'client_id' => Controller::getClientId(),
             'payload' => [
                 'img_path' => $photoPath,
                 'person_id' => $personId,
@@ -111,6 +113,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
          */
         $payload = [
             'method' => 'detection',
+            'client_id' => Controller::getClientId(),
             'payload' => [
                 'img_path' => $photoPath,
             ]
@@ -131,6 +134,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
     public function test() {
         $payload = [
             'method' => 'test',
+            'client_id' => Controller::getClientId(),
             'payload' => [
                 'img_path' => 'blah',
                 'person_id' => 2
@@ -162,6 +166,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $payload = [
             'method' => 'verify',
+            'client_id' => Controller::getClientId(),
             'payload' => [
                 'img_path' => $photoPath,
                 'person_id' => $personId
@@ -194,6 +199,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $payload = [
             'method' => 'recognize',
+            'client_id' => Controller::getClientId(),
             'payload' => [
                 'img_path' => $photoPath,
                 'group_id' => $groupId
@@ -225,6 +231,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
         $payload = [
             'method' => 'compare',
+            'client_id' => Controller::getClientId(),
             'payload' => [
                 'face_id1' => $faceId1,
                 'face_id2' => $faceId2
