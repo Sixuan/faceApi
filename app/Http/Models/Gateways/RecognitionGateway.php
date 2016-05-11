@@ -112,7 +112,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
         }
          */
         $payload = [
-            'method' => 'detection',
+            'method' => 'detect',
             'payload' => [
                 'client_id' => Controller::getClientId(),
                 'img_path' => $photoPath,
