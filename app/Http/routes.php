@@ -32,7 +32,7 @@ $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 'midd
         $app->post('persons/faces', 'FaceController@store'); //working
         $app->delete('persons/faces/{id}', 'FaceController@destroy');
         
-        $app->post('detect', 'RecognitionController@detect');
+        $app->post('detect', 'FaceController@detect');
         $app->post('verify/{personId}', 'RecognitionController@verify'); //working
         $app->post('recognize/{groupId}', 'RecognitionController@recognize'); //working
         $app->post('compare', 'RecognitionController@compare'); //working
