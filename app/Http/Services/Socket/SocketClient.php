@@ -81,7 +81,7 @@ class SocketClient implements SocketClientInterface
         if(!($data = socket_read($sock, 20480))) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
-
+            \Log::error("Bad socket response", array('data' => $data));
             throw new SocketException("Couldn't read socket response: [$errorcode] $errormsg");
         }
 
