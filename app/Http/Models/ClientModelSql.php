@@ -28,6 +28,33 @@ class ClientModelSql extends BaseModelSql
         return self::$clientSqlSingleton;
     }
 
+    public function createClient(array $input) {
+        $appKey = uniqid("");
+        $appSecret = uniqid("");
+
+        $id = $this->getConn()->table('clients')
+            ->insertGetId(
+                array(
+                    'company' => $input['company'],
+                    'api_key' => $appKey,
+                    'api_secret' => $appSecret
+                )
+            );
+
+        return $this->getClient($id);
+    }
+    
+    public function getClient($id) {
+        return (array)$this->getConn()->table('clients')
+            ->where('clients_id', '=', $id)
+            ->first();
+    }
+
+    public function getClients() {
+        return (array)$this->getConn()->table('clients')
+            ->where('active', '=', 'Y')
+            ->get();
+    }
 
     /**
      * @param $appKey

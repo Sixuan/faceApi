@@ -16,6 +16,11 @@ $app->get('/', function () use ($app) {
 });
 //$app->get('groups', 'GroupController@index');'middleware' => 'logRequest'
 
+$app->post('faceApi/clients', 'ClientController@store');
+$app->get('faceApi/clients', 'ClientController@index');
+$app->get('faceApi/clients/{id}', 'ClientController@get');
+
+
 $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 
     'middleware' => ['apiClient', 'logRequest']],
     function () use ($app) {

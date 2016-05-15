@@ -68,13 +68,15 @@ $app->singleton(
 // ]);
 
  $app->middleware([
-     App\Http\Middleware\FaceApiClientAccessMiddleware::class,
-     App\Http\Middleware\LogRequestMiddleware::class
+     //App\Http\Middleware\FaceApiClientAccessMiddleware::class,
+     App\Http\Middleware\LogRequestMiddleware::class,
+     //App\Http\Middleware\InternalIpMiddleware::class
  ]);
 
  $app->routeMiddleware([
      'apiClient' => App\Http\Middleware\FaceApiClientAccessMiddleware::class,
-     'logRequest' => App\Http\Middleware\LogRequestMiddleware::class
+     'logRequest' => App\Http\Middleware\LogRequestMiddleware::class,
+     //'internalIp' => App\Http\Middleware\InternalIpMiddleware::class
  ]);
 
 /*
