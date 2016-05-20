@@ -112,7 +112,7 @@ $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
 
 //Config monolog
 $app->configureMonologUsing(function (\Monolog\Logger $monolog) {
-    $handler = new \Monolog\Handler\StreamHandler(storage_path('logs/lumen.log'));
+    $handler = new \Monolog\Handler\StreamHandler(storage_path('logs/'.date('Y-m-d').'.log'));
     $handler->setFormatter(new \Monolog\Formatter\LineFormatter(null, null, true, true));
     $monolog->pushHandler($handler);
 
