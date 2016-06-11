@@ -25,8 +25,8 @@ class FaceApiClientAccessMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $appKey = $request->input('app_key');
-        $appSecret = $request->input('app_secret');
+        $appKey = $request->get('app_key');
+        $appSecret = $request->get('app_secret');
 
         try{
             $clientId = ClientModelSql::getInstance()->getClientId($appKey, $appSecret);
