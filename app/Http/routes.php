@@ -29,6 +29,7 @@ $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers',
         $app->get('groups', 'GroupController@index');
         $app->get('groups/{id}', 'GroupController@get');
         $app->delete('groups/{id}', 'GroupController@destroy');
+        $app->delete('groups/flush/{id}', 'GroupController@flush');
 
         $app->post('persons', 'PersonController@store');
         $app->get('persons/{id}', 'PersonController@get');

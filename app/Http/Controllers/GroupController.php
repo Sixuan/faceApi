@@ -63,4 +63,19 @@ class GroupController extends Controller
             return self::buildResponse($content, self::BAD_REQUEST);
         }
     }
+    
+    public function flush($groupId) {
+        try{
+            print $groupId;
+            GroupModelSql::getInstance()->flushGroup(self::$clientId, $groupId);
+            return self::buildSuccessResponse();
+        }catch (\Exception $e) {
+            $content = array(
+                'status' => self::GENERAL_BAD_RESPONSE_MESSAGE,
+                'message' => $e->getMessage(),
+                'error' => (string)$e
+            );
+            return self::buildResponse($content, self::BAD_REQUEST);
+        }
+    }
 }

@@ -66,6 +66,23 @@ class GroupModelSql extends BaseModelSql
             ->get();
     }
     
+    public function flushGroup($clientId, $groupId) {
+        if(empty($clientId)) {
+            throw new BadRequestException("Client id is missing from the request", BadRequestException::MISSING_CLIENT_ID);
+        }
+
+        $group = (array)$this->getConn()->table('groups')
+            ->where('clients_id', '=', $clientId)
+            ->where('group_id', '=', $groupId)
+            ->first();
+
+        if(empty($group)) {
+            throw new NonExistingException("Group non-exiting for this client.", NonExistingException::GROUP_NOT_EXIST);
+        }
+
+        \DB::delete("delete persons from persons join persons_groups on (persons.person_id = persons_groups.person_id) where persons_groups.group_id = ".$groupId);
+    }
+    
     public function getGroupAndPersonsById($clientId, $groupId) {
 
         if(empty($clientId)) {
