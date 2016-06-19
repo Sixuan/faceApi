@@ -21,7 +21,7 @@ class RecognitionModelSql extends BaseModelSql
      */
     public static function getInstance() {
         if(self::$recognitionSqlSingleton == null) {
-            self::$recognitionSqlSingleton = new PersonModelSql();
+            self::$recognitionSqlSingleton = new RecognitionModelSql();
         }
         return self::$recognitionSqlSingleton;
     }
