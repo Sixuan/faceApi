@@ -152,6 +152,40 @@ class RecognitionGateway implements RecognitionGatewayInterface
         return $response;
     }
 
+    public function matching($photoPath1, $photoPath2)
+    {
+        /**
+         * {
+        "method" : "matching",
+        "payload" : {
+        "img_path1":"/opt/images/6/blah.jpg",
+        "img_path2":"/opt/images/6/blah.jpg",
+        "client_id" : 2
+        }
+        }
+         */
+        $payload = [
+            'method' => 'matching',
+            'payload' => [
+                'client_id' => Controller::getClientId(),
+                'img_path1' => $photoPath1,
+                'img_path2' => $photoPath2
+            ]
+        ];
+
+        $request = new SocketRequest(
+            $payload,
+            $this->host,
+            $this->port,
+            self::RECOGNITION_GATEWAY_CONNECTION_TIMEOUT
+        );
+
+        $response = $this->socketClient->send($request);
+        return $response;
+
+    }
+
+
     public function verify($photoPath, $personId)
     {
         /**

@@ -43,5 +43,6 @@ $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers',
         $app->post('verify/{personId}', 'RecognitionController@verify'); //working
         $app->post('recognize/{groupId}', 'RecognitionController@recognize'); //working
         $app->post('compare', 'RecognitionController@compare'); //working
+        $app->post('matching', 'RecognitionController@matching'); //working
     }
 );

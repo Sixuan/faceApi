@@ -13,6 +13,7 @@ use App\Http\Models\Gateways\RecognitionGateway;
 use App\Http\Models\GroupModelSql;
 use App\Http\Models\ImageUploader;
 use App\Http\Models\PersonModelSql;
+use App\Http\Models\RecognitionModelSql;
 use App\Http\Services\Socket\Exceptions\SocketException;
 use Illuminate\Http\Request;
 
@@ -100,6 +101,40 @@ class RecognitionController extends Controller
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->compare($input['face_id1'], $input['face_id2']);
             $content = $response->getContent();
+            $supplementInfo = RecognitionModelSql::getInstance()
+                ->getSupplementaryInfoForFaces($input['face_id1'], $input['face_id2']);
+            $content['supplement'] = $supplementInfo;
+            return self::buildResponse($content, self::SUCCESS_CODE);
+
+        }catch (SocketException $e) {
+            $content = array(
+                'status' => self::SOCKET_BAD_RESPONSE_MESSAGE,
+                'message' => $e->getMessage(),
+                'error' => (string)$e
+            );
+            return self::buildResponse($content, self::BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Give two images, upload to server and call algo to find out matching faces
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \App\Exceptions\BadRequestException
+     */
+    public function matching(Request $request) {
+        $file1 = $request->file('image1');
+        $photoPath1 = ImageUploader::uploadAndGetPath($file1);
+
+        $file2 = $request->file('image2');
+        $photoPath2 = ImageUploader::uploadAndGetPath($file2);
+
+        try{
+            $recognitionGateway = RecognitionGateway::getInstance();
+            $response = $recognitionGateway->matching($photoPath1, $photoPath2);
+            $content = $response->getContent();
+            $content['img_path1'] = $photoPath1;
+            $content['img_path2'] = $photoPath2;
             return self::buildResponse($content, self::SUCCESS_CODE);
 
         }catch (SocketException $e) {

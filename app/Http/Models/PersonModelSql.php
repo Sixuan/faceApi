@@ -88,8 +88,7 @@ class PersonModelSql extends BaseModelSql
         $personId = $this->getConn()->table('persons')
             ->insertGetId($insertPersonArray);
 
-            $group_ids = $input['group_ids'];
-
+        $group_ids = $input['group_ids'];
         $exceptions = [];
         $insertPersonGroupArray = [];
         

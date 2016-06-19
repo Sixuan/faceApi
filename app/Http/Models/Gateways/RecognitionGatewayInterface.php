@@ -52,6 +52,13 @@ interface RecognitionGatewayInterface
     public function verify($photoPath, $personId);
 
     /**
+     * @param $photoPath1
+     * @param $photoPath2
+     * @return SocketResponseInterface
+     */
+    public function matching($photoPath1, $photoPath2);
+
+    /**
      * @return SocketResponseInterface
      */
     public function test();
