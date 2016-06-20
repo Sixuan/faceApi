@@ -34,7 +34,7 @@ class RecognitionModelSql extends BaseModelSql
         
         $res = [];
         foreach ($info as $i) {
-            $i['img_path'] = str_replace('/tmp/', '/', $i['img_path']);
+            $i->img_path = str_replace('/tmp/', '/', $i->img_path);
             $res[] = $i;
         }
         
