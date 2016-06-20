@@ -27,10 +27,18 @@ class RecognitionModelSql extends BaseModelSql
     }
 
     public function getSupplementaryInfoForFaces($faceId1, $faceId2) {
-        return (array)$this->getConn()->table('faces as f')
+        $info = (array)$this->getConn()->table('faces as f')
             ->join('images as i', 'f.image_id', '=', 'i.image_id')
             ->whereIn('f.face_id', [$faceId1, $faceId2])
             ->get(['f.face_id', 'i.img_path']);
+        
+        $res = [];
+        foreach ($info as $i) {
+            $i['img_path'] = str_replace('/tmp', '', $i['img_path']);
+            $res[] = $i;
+        }
+        
+        return $res;
         
     }
 
