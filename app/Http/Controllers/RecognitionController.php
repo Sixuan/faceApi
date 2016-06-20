@@ -137,7 +137,7 @@ class RecognitionController extends Controller
             if($content['images']) {
                 $images = [];
                 foreach ($content['images'] as $image) {
-                    $image['img_path'] = str_replace('/tmp', '', $image['img_path']);
+                    $image['img_path'] = str_replace('/tmp/', '/', $image['img_path']);
                     $images[] = $image;
                 }
                 $content['images'] = $images;

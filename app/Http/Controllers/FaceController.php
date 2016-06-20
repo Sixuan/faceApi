@@ -111,7 +111,7 @@ class FaceController extends Controller
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->detect($photoPath);
             $content = $response->getContent();
-            $content['img_path'] = str_replace('/tmp', '', $photoPath);
+            $content['img_path'] = str_replace('/tmp/', '/', $photoPath);
             return self::buildResponse($content, self::SUCCESS_CODE);
 
         }catch (SocketException $e) {
