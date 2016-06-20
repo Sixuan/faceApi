@@ -133,8 +133,6 @@ class RecognitionController extends Controller
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->matching($photoPath1, $photoPath2);
             $content = $response->getContent();
-            $content['img_path1'] = $photoPath1;
-            $content['img_path2'] = $photoPath2;
             return self::buildResponse($content, self::SUCCESS_CODE);
 
         }catch (SocketException $e) {
