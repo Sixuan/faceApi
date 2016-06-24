@@ -76,6 +76,7 @@ class RecognitionController extends Controller
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->recognize($photoPath, $groupId);
             $content = $response->getContent();
+            $content['img_path'] = str_replace('/tmp/', '/', $photoPath);
             return self::buildResponse($content, self::SUCCESS_CODE);
 
         }catch (SocketException $e) {
