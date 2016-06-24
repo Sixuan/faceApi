@@ -76,6 +76,15 @@ class RecognitionController extends Controller
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->recognize($photoPath, $groupId);
             $content = $response->getContent();
+//            if(isset($content['candidates'])) {
+//                $candidates = [];
+//                foreach ($content['candidates'] as $can) {
+//                    $can['img_path'] = PersonModelSql::getInstance()->getImagePath($can['person_id']);
+//                    $candidates[] = $can;
+//                }
+//                $content['candidates'] = $candidates;
+//
+//            }
             $content['img_path'] = str_replace('/tmp/', '/', $photoPath);
             return self::buildResponse($content, self::SUCCESS_CODE);
 
@@ -135,7 +144,7 @@ class RecognitionController extends Controller
             $response = $recognitionGateway->matching($photoPath1, $photoPath2);
             $content = $response->getContent();
 
-            if($content['images']) {
+            if(isset($content['images'])) {
                 $images = [];
                 foreach ($content['images'] as $image) {
                     $image['img_path'] = str_replace('/tmp/', '/', $image['img_path']);

@@ -29,6 +29,10 @@ class PersonModelSql extends BaseModelSql
         return self::$personSqlSingleton;
     }
 
+    public function getImagePath($personId) {
+
+    }
+
     public function personsExistForClient($personId, $clientId) {
         return $this->getConn()->table('persons as p')
             ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
@@ -54,9 +58,12 @@ class PersonModelSql extends BaseModelSql
         $res = (array)$this->getConn()->table('persons as p')
             ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
             ->join('groups as g', 'g.group_id', '=', 'pg.group_id')
+            ->leftJoin('faces as f', 'f.person_id', '=', 'p.person_id')
+            ->leftJoin('images as i', 'i.image_id', '=', 'f.image_id')
             ->where('p.person_id', '=', $personId)
             ->where('g.clients_id', '=', $clientId)
-            ->get(['p.person_id', 'p.name', 'g.group_id']);
+            ->groupBy('p.person_id')
+            ->get(['p.person_id', 'p.name', 'g.group_id', 'f.face_id', 'i.img_path']);
 
         if(empty($res)) {
             throw new NonExistingException("person not existing for client", 'person_not_exist');
