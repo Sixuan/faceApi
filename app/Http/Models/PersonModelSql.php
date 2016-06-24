@@ -77,6 +77,8 @@ class PersonModelSql extends BaseModelSql
         return array(
             'person_id' => $r->person_id,
             'name' => $r->name,
+            'face_id' => $r->face_id,
+            'img_path' => $r->img_path,
             'groups' => $groups
         );
     }
