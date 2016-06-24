@@ -107,9 +107,11 @@ class GroupModelSql extends BaseModelSql
     public function getPersonsByGroupId($groupId) {
         $persons = (array)$this->getConn()->table('persons as p')
             ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
+            ->join('faces as f', 'f.person_id', '=', 'p.person_id')
+            ->join('images as i', 'i.image_id', '=', 'f.image_id')
             ->join('groups as g', 'pg.group_id', '=', 'g.group_id')
             ->where('g.group_id', '=', $groupId)
-            ->get(['p.person_id', 'p.name']);
+            ->get(['p.person_id', 'p.name', 'i.img_path']);
 
         return $persons;
     }
