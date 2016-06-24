@@ -63,7 +63,10 @@ class PersonModelSql extends BaseModelSql
             ->where('p.person_id', '=', $personId)
             ->where('g.clients_id', '=', $clientId)
             ->groupBy('p.person_id')
-            ->get(['p.person_id', 'p.name', 'g.group_id', 'f.face_id', 'i.img_path']);
+            ->get(['p.person_id', 'p.name',
+                'g.group_id', 'f.face_id', 'i.img_path',
+                'f.left', 'f.right',
+                'f.top', 'f.bottom']);
 
         if(empty($res)) {
             throw new NonExistingException("person not existing for client", 'person_not_exist');
@@ -79,6 +82,10 @@ class PersonModelSql extends BaseModelSql
             'name' => $r->name,
             'face_id' => $r->face_id,
             'img_path' => $r->img_path,
+            'top' => $r->top,
+            'bottom' => $r->bottom,
+            'right' => $r->right,
+            'left' => $r->left,
             'groups' => $groups
         );
     }
