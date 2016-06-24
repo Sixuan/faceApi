@@ -112,7 +112,7 @@ class GroupModelSql extends BaseModelSql
             ->join('groups as g', 'pg.group_id', '=', 'g.group_id')
             ->where('g.group_id', '=', $groupId)
             ->groupBy('p.person_id')
-            ->get(['p.person_id', 'p.name', 'i.img_path']);
+            ->get(['p.person_id', 'p.name', 'f.face_id', 'i.img_path']);
         
         return $persons;
     }
