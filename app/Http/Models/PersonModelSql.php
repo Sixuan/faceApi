@@ -81,7 +81,7 @@ class PersonModelSql extends BaseModelSql
             'person_id' => $r->person_id,
             'name' => $r->name,
             'face_id' => $r->face_id,
-            'img_path' => $r->img_path,
+            'img_path' => str_replace('/tmp/', '/', $r->img_path),
             'top' => $r->top,
             'bottom' => $r->bottom,
             'right' => $r->right,
