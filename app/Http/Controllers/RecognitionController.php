@@ -135,10 +135,8 @@ class RecognitionController extends Controller
     public function matching(Request $request) {
         $file1 = $request->file('image1');
         $photoPath1 = ImageUploader::uploadAndGetPath($file1);
-
         $file2 = $request->file('image2');
-        $photoPath2 = ImageUploader::uploadAndGetPath($file2);
-
+        $photoPath2 = ImageUploader::uploadAndGetPath($file2, '2');
         try{
             $recognitionGateway = RecognitionGateway::getInstance();
             $response = $recognitionGateway->matching($photoPath1, $photoPath2);

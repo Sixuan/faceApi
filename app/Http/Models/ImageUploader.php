@@ -19,14 +19,18 @@ class ImageUploader
      * @return string
      * @throws BadRequestException
      */
-    public static function uploadAndGetPath(UploadedFile $file){
+    public static function uploadAndGetPath(UploadedFile $file, $sufix = null){
         $mimeType = $file->getMimeType();
 //        print $mimeType;
         if (strpos($mimeType, 'image') === false) {
             throw new BadRequestException("invalid image format");
         }
         $extension = substr($mimeType, 6);
-        $name = time().'.'.$extension;
+        if($sufix) {
+            $name = time().'_'.$sufix.'.'.$extension;
+        } else {
+            $name = time().'.'.$extension;
+        }
         $path = "/tmp/tmpImages/";
         $file->move($path, $name);
         $photo = $path.$name;
