@@ -15,9 +15,10 @@ interface RecognitionGatewayInterface
     /**
      * Give a new photo, detect face
      * @param string $photoPath
+     * @param bool $saveToDB
      * @return SocketResponseInterface
      */
-    public function detect($photoPath);
+    public function detect($photoPath, $saveToDB);
 
     /**
      * Give a new photo, check if face is in a group

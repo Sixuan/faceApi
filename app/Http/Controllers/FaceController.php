@@ -106,10 +106,11 @@ class FaceController extends Controller
 
         $file = $request->file('image');
         $photoPath = ImageUploader::uploadAndGetPath($file);
-
+        $saveToDB = $request->get('saveDB', true);
+        
         try{
             $recognitionGateway = RecognitionGateway::getInstance();
-            $response = $recognitionGateway->detect($photoPath);
+            $response = $recognitionGateway->detect($photoPath, $saveToDB);
             $content = $response->getContent();
             $content['img_path'] = str_replace('/tmp/', '/', $photoPath);
             return self::buildResponse($content, self::SUCCESS_CODE);

@@ -101,7 +101,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
         return $response;
     }
 
-    public function detect($photoPath)
+    public function detect($photoPath, $saveToDB)
     {
         /**
          * {
@@ -116,6 +116,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
             'payload' => [
                 'client_id' => Controller::getClientId(),
                 'img_path' => $photoPath,
+                'saveToDB' => $saveToDB ? 1 : 0
             ]
         ];
 
