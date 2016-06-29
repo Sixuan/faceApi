@@ -55,36 +55,54 @@ class PersonModelSql extends BaseModelSql
     }
 
     public function getPerson($personId, $clientId) {
-        $res = (array)$this->getConn()->table('persons as p')
+//        $res = (array)$this->getConn()->table('persons as p')
+//            ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
+//            ->join('groups as g', 'g.group_id', '=', 'pg.group_id')
+//            ->leftJoin('faces as f', 'f.person_id', '=', 'p.person_id')
+//            ->leftJoin('images as i', 'i.image_id', '=', 'f.image_id')
+//            ->where('p.person_id', '=', $personId)
+//            ->where('g.clients_id', '=', $clientId)
+//            ->get(['p.person_id', 'p.name',
+//                'g.group_id', 'f.face_id', 'i.img_path',
+//                'f.left', 'f.right',
+//                'f.top', 'f.bottom']);
+
+        $groups = (array)$this->getConn()->table('persons as p')
             ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
             ->join('groups as g', 'g.group_id', '=', 'pg.group_id')
-            ->leftJoin('faces as f', 'f.person_id', '=', 'p.person_id')
-            ->leftJoin('images as i', 'i.image_id', '=', 'f.image_id')
             ->where('p.person_id', '=', $personId)
             ->where('g.clients_id', '=', $clientId)
-            ->get(['p.person_id', 'p.name',
-                'g.group_id', 'f.face_id', 'i.img_path',
-                'f.left', 'f.right',
-                'f.top', 'f.bottom']);
-        
-        if(empty($res)) {
+            ->lists('pg.group_id');
+
+        if(empty($groups)) {
             throw new NonExistingException("person not existing for client", 'person_not_exist');
         }
 
-        $groups = [];
-        foreach ($res as $r) {
-            $groups[] = $r->group_id;
-        }
+        $face = $this->getConn()->table('persons as p')
+            ->leftJoin('faces as f', 'f.person_id', '=', 'p.person_id')
+            ->leftJoin('images as i', 'f.image_id', '=', 'i.image_id')
+            ->where('p.person_id', '=', $personId)
+            ->orderBy('f.face_id', 'desc')
+            ->first([
+                'f.left',
+                'f.right',
+                'f.top',
+                'f.bottom',
+                'i.image_id',
+                'i.img_path',
+                'p.name',
+                'f.face_id'
+            ]);
 
         return array(
-            'person_id' => $r->person_id,
-            'name' => $r->name,
-            'face_id' => $r->face_id,
-            'img_path' => str_replace('/tmp/', '/', $r->img_path),
-            'top' => $r->top,
-            'bottom' => $r->bottom,
-            'right' => $r->right,
-            'left' => $r->left,
+            'person_id' => $personId,
+            'name' => $face->name,
+            'face_id' => $face->face_id,
+            'img_path' => str_replace('/tmp/', '/', $face->img_path),
+            'top' => $face->top,
+            'bottom' => $face->bottom,
+            'right' => $face->right,
+            'left' => $face->left,
             'groups' => $groups
         );
     }
