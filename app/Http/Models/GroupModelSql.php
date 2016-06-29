@@ -116,7 +116,7 @@ class GroupModelSql extends BaseModelSql
 
         $res = [];
         foreach ($persons as $person) {
-            $person['img_path'] = str_replace('/tmp/', '/', $person['img_path']);
+            $person->img_path = str_replace('/tmp/', '/', $person->img_path);
             $res[] = $person;
         }
         
