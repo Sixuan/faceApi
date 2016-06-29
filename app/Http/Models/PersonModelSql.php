@@ -62,12 +62,11 @@ class PersonModelSql extends BaseModelSql
             ->leftJoin('images as i', 'i.image_id', '=', 'f.image_id')
             ->where('p.person_id', '=', $personId)
             ->where('g.clients_id', '=', $clientId)
-            ->groupBy('p.person_id')
             ->get(['p.person_id', 'p.name',
                 'g.group_id', 'f.face_id', 'i.img_path',
                 'f.left', 'f.right',
                 'f.top', 'f.bottom']);
-
+        
         if(empty($res)) {
             throw new NonExistingException("person not existing for client", 'person_not_exist');
         }

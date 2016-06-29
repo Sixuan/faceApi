@@ -113,7 +113,13 @@ class GroupModelSql extends BaseModelSql
             ->where('g.group_id', '=', $groupId)
             ->groupBy('p.person_id')
             ->get(['p.person_id', 'p.name', 'f.face_id', 'i.img_path']);
+
+        $res = [];
+        foreach ($persons as $person) {
+            $person['img_path'] = str_replace('/tmp/', '/', $person['img_path']);
+            $res[] = $person;
+        }
         
-        return $persons;
+        return $res;
     }
 }
