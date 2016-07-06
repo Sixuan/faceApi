@@ -129,10 +129,10 @@ class GroupModelSql extends BaseModelSql
             ->limit(1)
             ->first(['f.face_id', 'i.img_path']);
 
-        if($face['img_path']) {
+        if(isset($face['img_path'])) {
             $face['img_path'] = str_replace('/tmp/', '/', $face['img_path']);
         }
-        
+
         return $face;
     }
 }
