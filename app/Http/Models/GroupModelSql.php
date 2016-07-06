@@ -107,19 +107,32 @@ class GroupModelSql extends BaseModelSql
     public function getPersonsByGroupId($groupId) {
         $persons = (array)$this->getConn()->table('persons as p')
             ->join('persons_groups as pg', 'p.person_id', '=', 'pg.person_id')
-            ->leftJoin('faces as f', 'f.person_id', '=', 'p.person_id')
-            ->leftJoin('images as i', 'i.image_id', '=', 'f.image_id')
             ->join('groups as g', 'pg.group_id', '=', 'g.group_id')
             ->where('g.group_id', '=', $groupId)
             ->groupBy('p.person_id')
-            ->get(['p.person_id', 'p.name', 'f.face_id', 'i.img_path']);
+            ->get(['p.person_id', 'p.name']);
 
         $res = [];
         foreach ($persons as $person) {
-            $person->img_path = str_replace('/tmp/', '/', $person->img_path);
-            $res[] = $person;
+            $face = $this->getMostRecentFaceForPerson($person->person_id);
+            $res[] = array_merge((array)$person, $face);
         }
         
         return $res;
+    }
+
+    public function getMostRecentFaceForPerson($personId) {
+        $face = (array)$this->getConn()->table('faces as f')
+            ->join('images as i', 'i.image_id', '=', 'f.image_id')
+            ->where('f.person_id', '=', $personId)
+            ->orderBy('f.timestamp', 'desc')
+            ->limit(1)
+            ->first(['f.face_id', 'i.img_path']);
+
+        if($face['img_path']) {
+            $face['img_path'] = str_replace('/tmp/', '/', $face['img_path']);
+        }
+        
+        return $face;
     }
 }
