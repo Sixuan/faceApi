@@ -30,7 +30,24 @@ class PersonModelSql extends BaseModelSql
     }
 
     public function getImagePath($personId) {
-
+        $img_path = null;
+        
+        $newestFaceImageId = $this->getConn()->table('faces')
+            ->where('person_id', '=', $personId)
+            ->orderBy('timestamp', 'desc')
+            ->limit(1)
+            ->pluck('image_id');
+        
+        if($newestFaceImageId) {
+            $img_path = $this->getConn()->table('images')
+                ->where('image_id', '=', $newestFaceImageId)
+                ->orderBy('timestamp', 'desc')
+                ->limit(1)
+                ->pluck('img_path');
+        }
+        
+        return str_replace('/tmp/', '/', $img_path);
+        
     }
 
     public function personsExistForClient($personId, $clientId) {
