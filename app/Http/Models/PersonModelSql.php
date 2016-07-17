@@ -36,7 +36,6 @@ class PersonModelSql extends BaseModelSql
             ->where('person_id', '=', $personId)
             ->orderBy('timestamp', 'desc')
             ->limit(1)
-            ->first()
             ->pluck('image_id');
         
         if($newestFaceImageId) {
