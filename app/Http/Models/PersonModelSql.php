@@ -45,7 +45,7 @@ class PersonModelSql extends BaseModelSql
                 ->limit(1)
                 ->pluck('img_path');
         }
-        
+        \Log::info('img_path', array('path' => $img_path));
         return str_replace('/tmp/', '/', $img_path);
         
     }
