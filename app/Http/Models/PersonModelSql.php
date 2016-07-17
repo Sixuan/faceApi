@@ -36,18 +36,22 @@ class PersonModelSql extends BaseModelSql
             ->where('person_id', '=', $personId)
             ->orderBy('timestamp', 'desc')
             ->limit(1)
+            ->first()
             ->pluck('image_id');
         
         if($newestFaceImageId) {
             $img_path = $this->getConn()->table('images')
-                ->where('image_id', '=', $newestFaceImageId)
+                ->where('image_id', '=', $newestFaceImageId[0])
                 ->orderBy('timestamp', 'desc')
                 ->limit(1)
                 ->pluck('img_path');
         }
         \Log::info('img_path', array('path' => $img_path, '$newestFaceImageId' => $newestFaceImageId));
-        return str_replace('/tmp/', '/', $img_path);
-        
+
+        if($img_path) {
+            return str_replace('/tmp/', '/', $img_path[0]);
+        }
+        return null;
     }
 
     public function personsExistForClient($personId, $clientId) {
