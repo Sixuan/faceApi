@@ -43,6 +43,7 @@ class FaceModelSql extends BaseModelSql
         }
     }
 
+
     public function faceExistForClient($faceId, $clientId) {
         return $this->getConn()->table('faces as f')
             ->join('persons as p', 'f.person_id', '=', 'p.person_id')

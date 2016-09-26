@@ -187,7 +187,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
     }
 
 
-    public function verify($photoPath, $personId)
+    public function verify($photoPath, $faceId, $personId)
     {
         /**
          * {
@@ -204,7 +204,8 @@ class RecognitionGateway implements RecognitionGatewayInterface
             'payload' => [
                 'client_id' => Controller::getClientId(),
                 'img_path' => $photoPath,
-                'person_id' => $personId
+                'person_id' => $personId,
+                'face_id' => $faceId,
             ]
         ];
 
@@ -220,7 +221,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
 
     }
 
-    public function recognize($photoPath, $groupId)
+    public function recognize($photoPath, $faceId, $groupId)
     {
         /**
          * {
@@ -237,6 +238,7 @@ class RecognitionGateway implements RecognitionGatewayInterface
             'payload' => [
                 'client_id' => Controller::getClientId(),
                 'img_path' => $photoPath,
+                'face_id' => $faceId,
                 'group_id' => $groupId
             ]
         ];

@@ -61,9 +61,5 @@ class PersonController extends Controller
             return self::buildResponse($content, self::BAD_REQUEST);
         }
     }
-
-    public function verify(Request $request, $personId) {
-        
-    }
     
 }

@@ -124,4 +124,20 @@ class FaceController extends Controller
             return self::buildResponse($content, self::BAD_REQUEST);
         }
     }
+    
+    public function update(Request $request, $faceId)
+    {
+        try{
+            $personId = $request->get('person_id');
+            PersonModelSql::getInstance()->addToPerson($faceId, $personId, self::$clientId);
+            return self::buildSuccessResponse();
+        }catch (\Exception $e) {
+            $content = array(
+                'status' => self::GENERAL_BAD_RESPONSE_MESSAGE,
+                'message' => $e->getMessage(),
+                'error' => (string)$e
+            );
+            return self::buildResponse($content, self::BAD_REQUEST);
+        }
+    }
 }

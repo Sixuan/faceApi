@@ -62,6 +62,24 @@ class PersonModelSql extends BaseModelSql
             ->exists();
     }
 
+
+    /**
+     * @param $faceId
+     * @param $personId
+     * @param $clientId
+     * @throws NonExistingException
+     */
+    public function addToPerson($faceId, $personId, $clientId)
+    {
+        if($this->personsExistForClient($personId, $clientId)) {
+            $this->getConn()->table('faces')
+                ->where('face_id', '=', $faceId)
+                ->update(['person_id' => $personId]);
+        }else{
+            throw new NonExistingException('person not existing for client', 'person_not_exist');
+        }
+    }
+    
     public function deletePerson($personId, $clientId) {
 
         if($this->personsExistForClient($personId, $clientId)) {

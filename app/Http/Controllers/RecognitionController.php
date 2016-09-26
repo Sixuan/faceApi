@@ -29,7 +29,22 @@ class RecognitionController extends Controller
     public function verify(Request $request, $personId) {
 
         $file = $request->file('image');
-        $photoPath = ImageUploader::uploadAndGetPath($file);
+        $photoPath = $faceId = null;
+        if ($file != null) {
+            $photoPath = ImageUploader::uploadAndGetPath($file);
+        }
+        
+        if ($request->has('face_id')) {
+            $faceId = $request->get('face_id');
+        }
+        
+        if(is_null($photoPath) && is_null($faceId)) {
+            $return = [
+                'status' => self::BAD_RESQUEST_RESPONSE_MESSAGE,
+                'message' => 'image or face_id is missing.'
+            ];
+            return self::buildResponse($return, self::SUCCESS_CODE);
+        }
 
         if(!PersonModelSql::getInstance()->personsExistForClient($personId, self::$clientId)) {
             $return = [
@@ -40,7 +55,7 @@ class RecognitionController extends Controller
         }
         try{
             $recognitionGateway = RecognitionGateway::getInstance();
-            $response = $recognitionGateway->verify($photoPath, $personId);
+            $response = $recognitionGateway->verify($photoPath, $faceId, $personId);
             $content = $response->getContent();
             return self::buildResponse($content, self::SUCCESS_CODE);
 
@@ -62,8 +77,22 @@ class RecognitionController extends Controller
      */
     public function recognize(Request $request, $groupId) {
         $file = $request->file('image');
-        $photoPath = ImageUploader::uploadAndGetPath($file);
-        
+        $photoPath = $faceId = null;
+        if ($file != null) {
+            $photoPath = ImageUploader::uploadAndGetPath($file);
+        }
+
+        if ($request->has('face_id')) {
+            $faceId = $request->get('face_id');
+        }
+
+        if(is_null($photoPath) && is_null($faceId)) {
+            $return = [
+                'status' => self::BAD_RESQUEST_RESPONSE_MESSAGE,
+                'message' => 'image or face_id is missing.'
+            ];
+            return self::buildResponse($return, self::SUCCESS_CODE);
+        }        
         if(!GroupModelSql::getInstance()->groupExistForClient($groupId, self::$clientId)) {
             $return = [
                 'status' => self::GENERAL_BAD_RESPONSE_MESSAGE,
@@ -74,7 +103,7 @@ class RecognitionController extends Controller
 
         try{
             $recognitionGateway = RecognitionGateway::getInstance();
-            $response = $recognitionGateway->recognize($photoPath, $groupId);
+            $response = $recognitionGateway->recognize($photoPath, $faceId, $groupId);
             $content = $response->getContent();
             if(isset($content['candidates'])) {
                 $candidates = [];

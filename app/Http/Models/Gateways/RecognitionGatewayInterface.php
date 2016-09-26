@@ -23,10 +23,11 @@ interface RecognitionGatewayInterface
     /**
      * Give a new photo, check if face is in a group
      * @param string $photoPath
+     * @param int $faceId
      * @param int $groupId
      * @return SocketResponseInterface
      */
-    public function recognize($photoPath, $groupId);
+    public function recognize($photoPath, $faceId, $groupId);
 
     /**
      * Given two existing faces, compare similarity
@@ -47,10 +48,11 @@ interface RecognitionGatewayInterface
     /**
      * Given a new photo, verify if it's matching an existing person
      * @param string $photoPath
+     * @param int $faceId
      * @param integer $personId
      * @return SocketResponseInterface
      */
-    public function verify($photoPath, $personId);
+    public function verify($photoPath, $faceId, $personId);
 
     /**
      * @param $photoPath1

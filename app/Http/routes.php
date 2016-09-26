@@ -21,7 +21,7 @@ $app->get('faceApi/clients', 'ClientController@index');
 $app->get('faceApi/clients/{id}', 'ClientController@get');
 
 
-$app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers', 
+$app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers',
     'middleware' => ['apiClient', 'logRequest']],
     function () use ($app) {
 
@@ -34,11 +34,12 @@ $app->group(['prefix' => 'faceApi', 'namespace' => 'App\Http\Controllers',
         $app->post('persons', 'PersonController@store');
         $app->get('persons/{id}', 'PersonController@get');
         $app->delete('persons/{id}', 'PersonController@destroy');
-            
+
         $app->post('test', 'FaceController@socket'); //testing-working
         $app->post('persons/faces', 'FaceController@store'); //working
         $app->delete('persons/faces/{id}', 'FaceController@destroy');
-        
+        $app->put('persons/faces/{id}', 'FaceController@update');
+
         $app->post('detect', 'FaceController@detect');
         $app->post('verify/{personId}', 'RecognitionController@verify'); //working
         $app->post('recognize/{groupId}', 'RecognitionController@recognize'); //working
